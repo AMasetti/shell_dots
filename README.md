@@ -7,15 +7,15 @@ With this script you can:
 - Clear out the MacOS Dock
 
 Prompts for user input on these intallations:
-    - Homebrew & wget
-    - iTerm2
-    - pyenv & pyenv-virtualenv
-    - Jupyter
-    - Oh My ZSH
-    - Oh My Powelevel10k
-    - Git Delta & ZSH Autosuggestions
-    - VS Code
-    - Docker
+- Homebrew & wget
+- iTerm2
+- pyenv & pyenv-virtualenv
+- Jupyter
+- Oh My ZSH
+- Oh My Powelevel10k
+- Git Delta & ZSH Autosuggestions
+- VS Code
+- Docker
 
 # Launch it :rocket:
 Setup permissions and run the script
