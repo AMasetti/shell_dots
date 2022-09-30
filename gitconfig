@@ -1,0 +1,86 @@
+[color]
+	branch = auto
+	ui = true
+[color "branch"]
+	current = yellow bold
+	local = white
+	remote = yellow dim
+[color "diff"]
+	commit = yellow bold
+	frag = magenta bold
+	meta = yellow
+	new = green bold
+	old = red bold
+	whitespace = red reverse
+[color "status"]
+	added = cyan bold
+	branch = yellow bold
+	changed = red bold
+	untracked = magenta bold
+[alias]
+	br = branch
+	cm = commit
+	co = checkout
+	cr = checkout -b
+	df = diff
+	ds = diff --staged
+	fe = fetch -tpP
+	last = log --oneline -n 1
+	minlog = log --oneline
+	graph = log --color --graph --oneline
+	pn = push origin -u HEAD
+	pu = push
+	pl = pull
+	up = !git fetch -tpP && git pull
+	st = !git branch && git status
+	statlog = log --stat
+	taglist = tag -l --sort=-v:refname
+	tagl = tag -l --sort=-v:refname
+
+	lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+	lg = !"git lg1"
+[credential]
+	helper = osxkeychain
+[push]
+	default = current
+[user]
+	name = AMasetti
+	email = augmas15@gmail.com
+	signingkey = 0123456789
+[gpg]
+	program = /usr/local/bin/gpg
+[commit]
+	gpsign = true
+	gpgsign = true
+[core]
+	excludesfile = /Users/amasetti/.gitignore_global
+[pull]
+	rebase = false
+
+[url "git@github.com:"]
+	insteadOf = https://github.com/\n
+	insteadOf = https://github.com/
+	insteadOf = https://github.com/
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+[delta]
+    features = side-by-side line-numbers decorations
+    syntax-theme = Dracula
+    plus-style = syntax "#003800"
+    minus-style = syntax "#3f0001"
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = bold yellow ul
+    file-decoration-style = none
+    hunk-header-decoration-style = cyan box ul
+[delta "line-numbers"]
+    line-numbers-left-style = cyan
+    line-numbers-right-style = cyan
+    line-numbers-minus-style = 124
+    line-numbers-plus-style = 28
+[interactive]
+    diffFilter = delta --color-only

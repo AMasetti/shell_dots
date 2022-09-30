@@ -1,0 +1,100 @@
+#!/bin/bash
+# Get the containing directory.
+DOTS=$(cd "$(dirname "$0")" && pwd -P)
+
+# Symlink the rc files.
+# for f in "$DOTS"/*rc; do
+#   ln -s "$f" $HOME/.$(basename "$f")
+# done
+
+# Symlink the git configuration
+ln -s "$DOTS"/gitconfig "$HOME/.gitconfig"
+ln -s "$DOTS"/gitignore_global "$HOME/.gitignore_global"
+
+# Symlink all shell scripts
+mkdir -p $HOME/shell_scripts
+for f in "$DOTS"/shell_scripts/*sh; do
+  ln -s "$f" $HOME/shell_scripts/$(basename "$f")
+done
+
+# Copy bash_profile as it can end up with sensitive material
+cp "$DOTS"/zshrc "$HOME/.zshrc"
+cp "$DOTS"/zprofile "$HOME/.zprofile"
+
+# Check if running on OSX.
+if [ "$(uname -s)" == 'Darwin' ]; then
+
+
+  # Clear out the dock on first config
+  read -e -n 1 -p 'Clear Dock (y/N)? ' DOCK
+  if [ "$DOCK" == 'y' ]; then
+    defaults write com.apple.dock persistent-apps -array
+    killall Dock
+  fi
+
+  # Install Homebrew if not installed
+  if ! type brew 2>/dev/null; then
+    read -e -n 1 -p 'Install Homebrew (y/N)? ' BREW
+    if [ "$BREW" == 'y' ]; then
+      /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+      brew install wget
+    fi
+  fi
+
+  # Only try  these if we've previously installed Homebrew
+  if type brew 2>/dev/null; then
+
+    # Install iTerm2
+    read -e -n 1 -p 'Install iTerm2 (y/N)? ' ITERM
+    if [ "$ITERM" == 'y' ]; then
+      brew install --cask iterm2
+    fi
+    
+    # Install Pyenv and Pyenv-Virtualenv
+    read -e -n 1 -p 'Install pyenv (y/N)? ' PYENV_INSTALL
+    if [ "$PYENV_INSTALL" == 'y' ]; then
+      brew install pyenv pyenv-virtualenv
+    fi
+
+    # Install Jupyter
+    read -e -n 1 -p 'Install Jupyter Notebooks (y/N)? ' JUPYTER
+    if [ "$JUPYTER" == 'y' ]; then
+      brew install jupyter
+      pip install ipykernel
+      echo 'create new kernels using the command: python -m ipykernel install --name=mongo-db-connect'
+    fi
+
+    # Install Oh My Zsh and Powerlevel10k.
+    read -e -n 1 -p 'Install Oh My Zsh (y/N)? ' OMYZSH
+    if [ "$OMYZSH" == 'y' ]; then
+      sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    fi
+
+    # Install Git Delta and ZSH Autosuggestions
+    read -e -n 1 -p 'Install Git Delta (y/N)? ' GIT_DELTA
+    if [ "$GIT_DELTA" == 'y' ]; then
+      brew install less git-delta
+      git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+    fi
+
+    # Install Oh My Zsh and Powerlevel10k.
+    read -e -n 1 -p 'Install Powerlevel10k (y/N)? ' PL10K
+    if [ "$PL10K" == 'y' ]; then
+      git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+    fi
+
+    # Install VS CODE
+    read -e -n 1 -p 'Install VS Code (y/N)? ' VSCODE
+    if [ "$VSCODE" == 'y' ]; then
+      brew install --cask visual-studio-code
+      echo 'Remember to add the vscode path from VS Code app by running the shell command'
+    fi
+
+    # Install Docker
+    read -e -n 1 -p 'Install VS Code (y/N)? ' DOCKER
+    if [ "$DOCKER" == 'y' ]; then
+      brew cask install docker
+    fi
+
+  fi
+fi
